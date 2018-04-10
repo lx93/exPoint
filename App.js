@@ -5,12 +5,8 @@ import { Platform, StatusBar } from 'react-native';
 import MainPage from './app/MainPage';
 import AddPage from './app/AddPage';
 import LoginPage from './app/LoginPage';
-import {StackNavigator,Constants} from 'react-navigation';
+import {StackNavigator} from 'react-navigation';
 
-if (Platform.OS=="android") {
-  StackNavigator.headerStyles.paddingTop = Constants.statusBarHeight
-  StackNavigator.headerStyles.height     = Constants.statusBarHeight + 56
-}
 
 const App = StackNavigator (
 	{
