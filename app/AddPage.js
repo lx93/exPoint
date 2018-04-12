@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Input, Item, SearchBar, Container, Title, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right , View , Fab , List, ListItem } from 'native-base';
+import { Input, Item, Container, Title, Header, Content, Text, Right , View , List, ListItem } from 'native-base';
 import {Font} from "expo";
+import SearchBar from './components/SearchBar';
 
 
 export default class AddPage extends Component {
@@ -9,7 +10,7 @@ export default class AddPage extends Component {
 		super(props);
 	} 
 
-	_onPressed = () => {null
+	_onPressed = () => {
 		console.log(this.item);
 	}
 
@@ -19,29 +20,17 @@ export default class AddPage extends Component {
 		var items = ['TOPO Chapel Hill','Chopt','Best Buy','Joe Van Gogh Coffee','Nordstorm'];
 
 		return (
-
-		      <Container>
-		      	<Header searchBar rounded>
-          			<Item>
-            			<Icon name="ios-search" />
-            			<Input placeholder="Search for a reward program" />
-          			</Item>
-          			<Button transparent>
-            			<Text>Search</Text>
-          			</Button>
-        		</Header>
-
+			<Container>
+				<SearchBar placeholder="Search for a reward program" />
 		        <Content>
-		          <List dataArray={items}
-		            renderRow={(item) =>
+					<List dataArray={items} renderRow={(item) =>
 		              <ListItem onPress={this._onPressed}>
 		                <Text>{item}</Text>
 		              </ListItem>
 		            }>
 		          </List>
 		        </Content>
-
-		      </Container>
-		    );
+		    </Container>
+		   	);
 	}
 }
