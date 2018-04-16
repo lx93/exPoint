@@ -1,13 +1,13 @@
 pragma solidity ^0.4.18;
 
 // ----------------------------------------------------------------------------
-// 'Rise' token contract
+// 'TOPO' token contract
 //
 // Deployed to : 0x25D677b8907619FA359F89945106c150391eE23d
-// Symbol      : RISE
-// Name        : Rise rewards
+// Symbol      : TOPO
+// Name        : TOPO Credit
 // Total supply: 100000000
-// Decimals    : 18
+// Decimals    : 2
 //
 // Enjoy.
 //
@@ -99,7 +99,7 @@ contract Owned {
 // ERC20 Token, with the addition of symbol, name and decimals and assisted
 // token transfers
 // ----------------------------------------------------------------------------
-contract RiseToken is ERC20Interface, Owned, SafeMath {
+contract TOPOToken is ERC20Interface, Owned, SafeMath {
     string public symbol;
     string public  name;
     uint8 public decimals;
@@ -112,11 +112,11 @@ contract RiseToken is ERC20Interface, Owned, SafeMath {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-    function RiseToken() public {
-        symbol = "RISE";
-        name = "Rise Rewards";
-        decimals = 18;
-        _totalSupply = 100000000000000000000000000;
+    function TOPOToken() public {
+        symbol = "TOPO";
+        name = "TOPO Credit";
+        decimals = 2;
+        _totalSupply = 100000000;
         balances[0x25D677b8907619FA359F89945106c150391eE23d] = _totalSupply;
         Transfer(address(0), 0x25D677b8907619FA359F89945106c150391eE23d, _totalSupply);
     }
@@ -221,3 +221,4 @@ contract RiseToken is ERC20Interface, Owned, SafeMath {
         return ERC20Interface(tokenAddress).transfer(owner, tokens);
     }
 }
+

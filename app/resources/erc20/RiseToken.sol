@@ -1,13 +1,13 @@
 pragma solidity ^0.4.18;
 
 // ----------------------------------------------------------------------------
-// 'Chopt' token contract
+// 'Rise' token contract
 //
 // Deployed to : 0x25D677b8907619FA359F89945106c150391eE23d
-// Symbol      : CHOPT
-// Name        : Chopt rewards
-// Total supply: 1000000
-// Decimals    : 0
+// Symbol      : RISE
+// Name        : RISE Credit
+// Total supply: 100000000
+// Decimals    : 2
 //
 // Enjoy.
 //
@@ -99,7 +99,7 @@ contract Owned {
 // ERC20 Token, with the addition of symbol, name and decimals and assisted
 // token transfers
 // ----------------------------------------------------------------------------
-contract ChoptToken is ERC20Interface, Owned, SafeMath {
+contract RiseToken is ERC20Interface, Owned, SafeMath {
     string public symbol;
     string public  name;
     uint8 public decimals;
@@ -112,11 +112,11 @@ contract ChoptToken is ERC20Interface, Owned, SafeMath {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-    function ChoptToken() public {
-        symbol = "CHOPT";
-        name = "Chopt Rewards";
-        decimals = 0;
-        _totalSupply = 1000000;
+    function RiseToken() public {
+        symbol = "RISE";
+        name = "RISE Credit";
+        decimals = 2;
+        _totalSupply = 100000000;
         balances[0x25D677b8907619FA359F89945106c150391eE23d] = _totalSupply;
         Transfer(address(0), 0x25D677b8907619FA359F89945106c150391eE23d, _totalSupply);
     }

@@ -13,9 +13,8 @@ export default class QRScanPage extends Component {
   componentDidMount() {
     this._requestCameraPermission();
     //just for testing
-    new MainPage().addNewStore("0xec8dd2dfe5ce4ca40d75487e5875ff78c61907e2");
-
-    this.props.navigation.navigate('Home');
+    // new MainPage().addNewStore("0xec8dd2dfe5ce4ca40d75487e5875ff78c61907e2");
+    // this.props.navigation.navigate('Home');
   }
 
   _requestCameraPermission = async () => {
