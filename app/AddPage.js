@@ -15,8 +15,7 @@ var BBY = ''
 var JVG = ''
 var NORD = ''
 
-var storeListBackend = [RISE,TOPO,CHOPT];
-
+var storeListBackend = [RISE,TOPO,CHOPT,BBY,JVG,NORD];
 
 
 
