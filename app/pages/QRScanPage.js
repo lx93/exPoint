@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Alert,Linking,Dimensions,LayoutAnimation,Text,View,StatusBar,StyleSheet,TouchableOpacity,} from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import MainPage from './MainPage';
+import WalletTab from '../tabs/walletTab';
 
 export default class QRScanPage extends Component {
 
@@ -58,7 +58,7 @@ export default class QRScanPage extends Component {
 //haha
     if (!this.state.lastScannedUrl) {return;}
     console.log(this.state.lastScannedUrl);
-    new MainPage().addNewStore(this.state.lastScannedUrl);
+    new WalletTab().addNewStore(this.state.lastScannedUrl);
     this.props.navigation.navigate('Home');
   };
 }

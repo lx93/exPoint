@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {View,Image,Dimensions,Keyboard} from 'react-native';
 import {RkButton,RkText,RkTextInput,RkAvoidKeyboard,RkStyleSheet,RkTheme} from 'react-native-ui-kitten';
-import {scale, scaleModerate, scaleVertical} from './utils/scale';
+import {scale, scaleModerate, scaleVertical} from '../utils/scale';
 import { Button } from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -19,10 +19,10 @@ export default class LoginPage extends Component {
 
     if (RkTheme.current.name === 'light')
       image = (<Image style={[styles.image, {height, width}]}
-                      source={require('./resources/logo.png')}/>);
+                      source={require('../resources/logo.png')}/>);
     else
       image = (<Image style={[styles.image, {height, width}]}
-                      source={require('./resources/logo.png')}/>);
+                      source={require('../resources/logo.png')}/>);
     return image;
   }
 

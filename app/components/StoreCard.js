@@ -3,10 +3,6 @@ import {Image} from 'react-native';
 import {Container,Header,Title,Content,Button,Icon,Body,Left,Right,CardItem,Card,Thumbnail,Text} from 'native-base';
 import {Font} from "expo";
 
-const images = {
-    rise: require('../resources/rise.jpg'),
-    chopt: require('../resources/chopt.jpg'),
-};
 
 export default class StoreCard extends Component {
 
@@ -15,13 +11,12 @@ export default class StoreCard extends Component {
   }
 
   render() {
-    const imageName = this.props.image;
     return (      
         <Content>
           <Card>
             <CardItem>
               <Left>
-                <Thumbnail source={images[imageName]} />
+                <Thumbnail source={this.props.image} />
                 <Body>
                   <Text>{this.props.title}</Text>
                   <Text note>Balance: {this.props.balance}</Text> 
@@ -29,7 +24,7 @@ export default class StoreCard extends Component {
               </Left>
             </CardItem>
             <CardItem cardBody>
-              <Image source={images[imageName]} style={{height: 100, width: null, flex: 1}}/>
+              <Image source={this.props.image} style={{height: 100, width: null, flex: 1}}/>
             </CardItem>
           </Card>
         </Content>      

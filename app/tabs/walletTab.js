@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Title, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right , View , Fab } from 'native-base';
+import { Container, Title, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right , View , Fab , Tabs, Tab } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import StoreCard from './components/StoreCard';
 import Expo from "expo";
-import App from '../App'
-import {fetchBalance} from './utils/balance'
+import App from '../../App'
+import {fetchBalance} from '../utils/balance'
+import StoreCard from '../components/StoreCard';
 
 var ownedStore = [ ];
 
@@ -14,7 +14,8 @@ export default class MainPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {isReady: false, active: 'true', balances: [], titles: [], imgSRCs: [] };
+//this is a local state that manages what cards to show in wallet
+    this.state = {active: 'true', balances: [], titles: [], imgSRCs: [] };
   }
 
 
@@ -33,11 +34,6 @@ export default class MainPage extends Component {
   }
 
   async componentDidMount() {
-    await Expo.Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-    });
-    this.setState({ isReady: true });
     this._updateStoreState();
   }
 
@@ -56,11 +52,8 @@ export default class MainPage extends Component {
   }
 
   render() {
-    if (!this.state.isReady) {return <Expo.AppLoading />;}
-
     return( 
-      <Container>
-        <Header><Body><Title>Point</Title></Body></Header>  
+      <Container>  
         {this.createStoreCards()}
         <View style={{ flex: 1 }}>
           <Fab
