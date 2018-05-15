@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {Container,Header,Title,Button,Icon,Tabs,Tab,Right,Left,Body} from "native-base";
-import WalletTab from "../tabs/walletTab";
+import WalletTab from "../tabs/WalletTab";
 
 
-export default class HomePage extends Component {
+export default class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {isReady: false};
@@ -27,7 +27,7 @@ export default class HomePage extends Component {
         <Header><Body><Title>Point</Title></Body></Header>
         <Tabs>
           <Tab heading="Wallet">
-            <WalletTab navigation={this.props.navigation}/>
+            <WalletTab navigation={this.props.navigation} screenProps={this.props.screenProps}/>
           </Tab>
           <Tab heading="Buy">
             <WalletTab />

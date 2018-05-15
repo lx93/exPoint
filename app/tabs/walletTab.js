@@ -8,9 +8,8 @@ import App from '../../App'
 import {fetchBalance} from '../utils/balance'
 import StoreCard from '../components/StoreCard';
 
-var ownedStore = [ ];
 
-export default class MainPage extends Component {
+export default class WalletTab extends Component {
 
   constructor(props) {
     super(props);
@@ -25,10 +24,10 @@ export default class MainPage extends Component {
     let imgSRCs = this.state.imgSRCs.slice();
 
     //populate the state arrays
-    for( var i in ownedStore ) {
-      balances.push(await fetchBalance(ownedStore[i].contractAddr));
-      titles.push(ownedStore[i].title);
-      imgSRCs.push(ownedStore[i].image);
+    for( var i in this.props.screenProps.ownedStores ) {
+      balances.push(await fetchBalance(this.props.screenProps.ownedStores[i].contractAddr));
+      titles.push(this.props.screenProps.ownedStores[i].title);
+      imgSRCs.push(this.props.screenProps.ownedStores[i].image);
       this.setState({balances: balances, titles: titles, imgSRCs: imgSRCs});
     }
   }
@@ -37,10 +36,6 @@ export default class MainPage extends Component {
     this._updateStoreState();
   }
 
-
-  addNewStore = (newStore) => {
-    ownedStore.push(newStore);
-  }
 
   createStoreCards(){
     var storeCards = [];

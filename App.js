@@ -11,10 +11,10 @@ import {StackNavigator} from 'react-navigation';
 
 const RootStack = StackNavigator (
 	{
-		Home:{screen:MainPage},
+		LoginPage:{screen:LoginPage},
+		MainPage:{screen:MainPage},
 		AddPage:{screen:AddPage},
 		QRScanPage:{screen:QRScanPage},
-		LoginPage:{screen:LoginPage},
 	},
 	{ headerMode: 'none' },
 );
@@ -26,17 +26,23 @@ var BBY = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: re
 var JVG = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: require('./app/resources/rise.jpg'), title: 'Joe Van Gogh Coffee'}
 var NORD = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: require('./app/resources/rise.jpg'), title: 'Nordstorm'}
 
+var ownedStores = [RISE];
+
+
 export default class App extends Component{
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			allStores: [RISE,TOPO,CHOPT,BBY,JVG,NORD], 
-			ownedStores: [RISE],
-
+			ownedStores: ownedStores,
 		};
 	}
 
+	addOwnedStore = (newStore) => {
+    	ownedStores.push(newStore);
+    	alert (this.state.ownedStores);
+    }
 
 	render() {
 		return (

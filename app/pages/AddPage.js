@@ -3,10 +3,7 @@ import { Image } from 'react-native';
 import { Input, Item, Container, Title, Header, Content, Text, Right , View , List, ListItem } from 'native-base';
 import {Font} from "expo";
 import SearchBar from '../components/SearchBar';
-import WalletTab from '../tabs/walletTab';
-
-
-var storeList = [];
+import App from '../../App';
 
 
 export default class AddPage extends Component {
@@ -15,21 +12,13 @@ export default class AddPage extends Component {
 		super(props);
 	}
 
-// create a storeList for list to render in dataArray
-	componentWillMount() {
-		storeList = [];
-
-		for (var i in this.props.screenProps.allStores){
-			storeList.push(this.props.screenProps.allStores[i].title);
-		}
-	}
 
 // this function handles when a store listitem is clicked on
 	_onPressed = (clickedStore) => {
 		for (var i in this.props.screenProps.allStores){
 			if (clickedStore == this.props.screenProps.allStores[i].title){
-				new WalletTab().addNewStore(this.props.screenProps.allStores[i]);
-    			this.props.navigation.navigate('Home');
+				new App().addOwnedStore(this.props.screenProps.allStores[i]);
+    			this.props.navigation.navigate('MainPage');
 			}
 		}
 		console.log(clickedStore);
@@ -37,15 +26,13 @@ export default class AddPage extends Component {
 
 
 	render(){
-		console.log(storeList);
-
 		return (
 			<Container>
 				<SearchBar placeholder="Search for a store" />
 		        <Content>
-					<List dataArray={storeList} renderRow={(storeName) =>
-		              <ListItem onPress={()=>{this._onPressed(storeName)}}>
-		                <Text>{storeName}</Text>
+					<List dataArray={this.props.screenProps.allStores} renderRow={(storeName) =>
+		              <ListItem onPress={()=>{this._onPressed(storeName.title)}}>
+		                <Text>{storeName.title}</Text>
 		              </ListItem>
 		            }>
 		          </List>

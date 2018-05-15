@@ -38,12 +38,8 @@ export default class LoginPage extends Component {
         <View style={styles.container}>
           <RkTextInput rkType='rounded' placeholder='Your Email Address'/>
           <RkTextInput rkType='rounded' placeholder='Your Password' secureTextEntry={true}/>
-          <RkButton onPress={() => this.props.navigation.navigate('Home')} rkType='large' > Login </RkButton>
-          <View style={styles.footer}>
-            <View style={styles.textRow}>
-              <RkText rkType='primary3'>Please remember your password. We do not store your account information on our server, and if you lose your password your rewards will be gone for good!</RkText>
-            </View>
-          </View>
+          <RkButton onPress={() => this.props.navigation.navigate('MainPage')} rkType='large' > Login </RkButton>
+          
         </View>
       </RkAvoidKeyboard>
     )

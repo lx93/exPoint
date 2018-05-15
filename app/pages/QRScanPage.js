@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Alert,Linking,Dimensions,LayoutAnimation,Text,View,StatusBar,StyleSheet,TouchableOpacity,} from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import WalletTab from '../tabs/walletTab';
+import WalletTab from '../tabs/WalletTab';
 
 export default class QRScanPage extends Component {
 
