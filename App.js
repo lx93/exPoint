@@ -45,9 +45,7 @@ export default class App extends Component{
     }
 
 	render() {
-		return (
-				<RootStack screenProps= {this.state} />
-			)
+		return (<RootStack screenProps= {this.state} />)
 	}
 }
 
