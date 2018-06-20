@@ -4,35 +4,43 @@ import { Input, Item, Container, Title, Header, Content, Text, Right , View , Li
 import {Font} from "expo";
 import SearchBar from '../components/SearchBar';
 import App from '../../App';
+import {getAllMerchants} from '../utils/Merchants';
+import {createBalance} from '../utils/Balance';
 
 
 export default class AddPage extends Component {
 
 	constructor (props){
 		super(props);
+		this.state = {allMerchants:[]}
+	}
+
+	componentDidMount() {
+		this.setAllMerchantsState(this.props.screenProps.state.token);
+	}
+
+	setAllMerchantsState = async(token) => {
+		var allMerchants = await getAllMerchants(token);
+		this.setState({allMerchants:allMerchants});
 	}
 
 
 // this function handles when a store listitem is clicked on
-	_onPressed = (clickedStore) => {
-		for (var i in this.props.screenProps.allStores){
-			if (clickedStore == this.props.screenProps.allStores[i].title){
-				new App().addOwnedStore(this.props.screenProps.allStores[i]);
-    			this.props.navigation.navigate('MainPage');
-			}
-		}
-		console.log(clickedStore);
+	_onPressed = async (merchant) => {
+    	await createBalance(this.props.screenProps.state.token,merchant.merchantId);
+    	this.props.navigation.navigate('HomePage');
+		console.log(merchant);
 	}
 
 
 	render(){
 		return (
 			<Container>
-				<SearchBar placeholder="Search for a store" />
+				<SearchBar placeholder="Search for a store" navigation={this.props.navigation} />
 		        <Content>
-					<List dataArray={this.props.screenProps.allStores} renderRow={(storeName) =>
-		              <ListItem onPress={()=>{this._onPressed(storeName.title)}}>
-		                <Text>{storeName.title}</Text>
+					<List dataArray={this.state.allMerchants} renderRow={(merchant) =>
+		              <ListItem onPress={()=>{this._onPressed(merchant)}}>
+		                <Text>{merchant.name}</Text>
 		              </ListItem>
 		            }>
 		          </List>

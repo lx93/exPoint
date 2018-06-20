@@ -12,6 +12,9 @@ export default class SearchBar extends Component {
   render() {
     return (      
           <Header searchBar rounded>
+              <Button transparent onPress={()=> this.props.navigation.navigate('HomePage')}>
+                <Text>Back</Text>
+              </Button>              
               <Item>
                 <Icon name="ios-search" />
                 <Input placeholder={this.props.placeholder} />

@@ -1,55 +1,47 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Container, Title, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right , View , Fab , Tabs, Tab } from 'native-base';
+import { Image, Container, Title, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right , View , Fab , Tabs, Tab , Center} from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Expo from "expo";
 import App from '../../App'
-import {fetchBalance} from '../utils/balance'
-import StoreCard from '../components/StoreCard';
+import WalletCard from '../components/WalletCard';
+import {getOwnedBalanceIDs} from '../utils/Balance';
+import QRCode from 'react-native-qrcode-svg';
 
 
 export default class WalletTab extends Component {
 
   constructor(props) {
     super(props);
-//this is a local state that manages what cards to show in wallet
-    this.state = {active: 'true', balances: [], titles: [], imgSRCs: [] };
+    //this is a local state that manages what cards to show in wallet
+    this.state = {active: 'true', ownedBalanceIDs:null};
   }
 
-
-  _updateStoreState = async() => {
-    let balances = this.state.balances.slice();
-    let titles = this.state.titles.slice();
-    let imgSRCs = this.state.imgSRCs.slice();
-
-    //populate the state arrays
-    for( var i in this.props.screenProps.ownedStores ) {
-      balances.push(await fetchBalance(this.props.screenProps.ownedStores[i].contractAddr));
-      titles.push(this.props.screenProps.ownedStores[i].title);
-      imgSRCs.push(this.props.screenProps.ownedStores[i].image);
-      this.setState({balances: balances, titles: titles, imgSRCs: imgSRCs});
-    }
+  componentDidMount() {
+    this.setBalanceState(this.props.screenProps.state.token);
   }
 
-  async componentDidMount() {
-    this._updateStoreState();
+  setBalanceState = async(token) => {
+    var ownedBalanceIDs = await getOwnedBalanceIDs(token);
+    this.setState ({ownedBalanceIDs:ownedBalanceIDs});
   }
 
-
-  createStoreCards(){
-    var storeCards = [];
-    for( var i = 0; i < this.state.balances.length ; i++ )
-    {
-      storeCards.push( <StoreCard balance={this.state.balances[i]} title={this.state.titles[i]} image={this.state.imgSRCs[i]} /> );
-    }
-    return storeCards;
+  walletCardOnPress (balance) {
+    this.props.navigation.navigate("RedeemPage", {balance:balance});
   }
+
 
   render() {
-    return( 
-      <Container>  
-        {this.createStoreCards()}
+
+    if (this.state.ownedBalanceIDs){
+      var walletCards = this.state.ownedBalanceIDs.map(balance => {
+        return (<WalletCard key={balance.balanceId} balance={balance.balance} title={balance.name} image={balance.image} onPress={()=>this.walletCardOnPress(balance)} />)
+      })
+    }
+    else {var walletCards = <WalletCard title="You don't have any giftcard yet" balance='0' /> }
+
+    return(
+      <Container>
+        {walletCards}
         <View style={{ flex: 1 }}>
           <Fab
             active={!this.state.active}

@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import {Image} from 'react-native';
 import {Container,Header,Title,Content,Button,Icon,Body,Left,Right,CardItem,Card,Thumbnail,Text} from 'native-base';
-import {Font} from "expo";
+import {Image} from 'react-native';
 
-
-export default class StoreCard extends Component {
+export default class WalletCard extends Component {
 
   constructor(props) {
     super(props);
@@ -14,20 +12,17 @@ export default class StoreCard extends Component {
     return (      
         <Content>
           <Card>
-            <CardItem>
+            <CardItem button onPress={this.props.onPress}>
               <Left>
-                <Thumbnail source={this.props.image} />
+                <Thumbnail source={{uri:"https://s3.amazonaws.com/point-server/"+this.props.image}} />
                 <Body>
                   <Text>{this.props.title}</Text>
                   <Text note>Balance: {this.props.balance}</Text> 
                 </Body>
               </Left>
             </CardItem>
-            <CardItem cardBody>
-              <Image source={this.props.image} style={{height: 100, width: null, flex: 1}}/>
-            </CardItem>
           </Card>
-        </Content>      
+        </Content>
     );
   }
 }

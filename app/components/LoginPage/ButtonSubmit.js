@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Dimensions from 'Dimensions';
 import {StyleSheet,TouchableOpacity,Text,Animated,Easing,Image,Alert,View,Container,Header,Title,Button,Icon,Tabs,Tab,Right,Left,Body} from 'react-native';
+import fblogin from '../../resources/fblogin.png';
+
 import spinner from '../../resources/loading.gif';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -17,6 +19,10 @@ export default class ButtonSubmit extends Component {
 
     this.buttonAnimated = new Animated.Value(0);
     this.growAnimated = new Animated.Value(0);
+  }
+
+  _onPressFB = (props) => {
+    this.props.fbLogin();
   }
 
 
@@ -75,6 +81,11 @@ export default class ButtonSubmit extends Component {
     });
     return (
       <View style={styles.container}>
+
+        <TouchableOpacity onPress={this._onPressFB}>
+          <Image source={fblogin} style={{height:50, width:330}} />
+        </TouchableOpacity>
+
         <Animated.View style={{width: changeWidth}}>
           <TouchableOpacity
             style={styles.button}
@@ -98,7 +109,7 @@ export default class ButtonSubmit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: -95,
+    top: -50,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },

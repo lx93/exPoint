@@ -1,51 +1,91 @@
 'use strict'
 
 import React, { Component } from 'react';
-import { Platform, View , Text} from 'react-native';
-import MainPage from './app/pages/MainPage';
+import {AsyncStorage,View,StatusBar} from 'react-native';
+import { Container, Content, Text, StyleProvider } from 'native-base';
+import variables from './native-base-theme/variables/variables';
+import getTheme from './native-base-theme/components';
+import HomePage from './app/pages/HomePage';
 import AddPage from './app/pages/AddPage';
 import LoginPage from './app/pages/LoginPage';
+import SignupPage from './app/pages/SignupPage';
 import QRScanPage from './app/pages/QRScanPage';
+import RedeemPage from './app/pages/RedeemPage';
 import {StackNavigator} from 'react-navigation';
+import {getUserInfo,getToken} from './app/utils/Login';
+
 
 
 const RootStack = StackNavigator (
 	{
 		LoginPage:{screen:LoginPage},
-		MainPage:{screen:MainPage},
+		SignupPage:{screen:SignupPage},
+		HomePage:{screen:HomePage},
 		AddPage:{screen:AddPage},
 		QRScanPage:{screen:QRScanPage},
+		RedeemPage:{screen:RedeemPage}
 	},
 	{ headerMode: 'none' },
 );
 
-var RISE = {contractAddr: '0x5745d2465a2b425b01dcd74c33086746ff3b198c', image: require('./app/resources/rise.jpg'), title: 'RISE'}		
-var TOPO = {contractAddr: '0x599a08dc182fd57e7dd440b2b7bc451c5115f089', image: require('./app/resources/topo.png'), title: 'TOPO Chapel Hill'}
-var CHOPT = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: require('./app/resources/chopt.jpg'), title: 'Chopt Creative Salad'}
-var BBY = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: require('./app/resources/chopt.jpg'), title: 'Best Buy'}
-var JVG = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: require('./app/resources/rise.jpg'), title: 'Joe Van Gogh Coffee'}
-var NORD = {contractAddr: '0x962e20c5035203f4940fed2f8fdca601c632c87a', image: require('./app/resources/rise.jpg'), title: 'Nordstorm'}
-
-var ownedStores = [RISE];
 
 
 export default class App extends Component{
-
 	constructor(props) {
 		super(props);
-		this.state = {
-			allStores: [RISE,TOPO,CHOPT,BBY,JVG,NORD], 
-			ownedStores: ownedStores,
-		};
+		this.state = {token: undefined, userInfo:{phone:'not available'}}
 	}
 
-	addOwnedStore = (newStore) => {
-    	ownedStores.push(newStore);
-    	alert (this.state.ownedStores);
-    }
+	// fix for android. load Robot_medium fonts to avoid font loading error
+	  async componentDidMount() {
+	    await Expo.Font.loadAsync({
+	      Roboto: require("native-base/Fonts/Roboto.ttf"),
+	      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+	    });
+	    this.setState({ isReady: true });
+	  }
+
+	updateState = async(u,p) => {
+		try {
+			let token = await getToken(u,p);
+			await this.setState({token:token});
+			let userInfo = await getUserInfo(token);
+			await this.setState({userInfo});
+
+			// save the authToken we fetched to AsyncStorage
+			if (this.state.token != undefined){
+				try {
+					await AsyncStorage.setItem('authToken', this.state.token);
+					console.log('authToken is now stored to AsyncStorage');
+				} catch (error) {console.log('error saving authToken')}	
+			}
+		}
+		catch (error) {console.log(error);}
+	}
+
+	updateStateThruToken = async(token) => {
+		try {
+			let userInfo = await getUserInfo(token);
+			await this.setState({token:token})
+			await this.setState({userInfo});
+		}	catch (error) {console.log(error);}	
+	}
+
 
 	render() {
-		return (<RootStack screenProps= {this.state} />)
+		// fix for android. load Robot_medium fonts to avoid font loading error
+		if (!this.state.isReady) {return <Expo.AppLoading />;}
+
+		this.allProps = {state: this.state, updateState: this.updateState, updateStateThruToken: this.updateStateThruToken};
+		console.log("App.js reporting its current state: " + JSON.stringify(this.state));
+
+		return (
+			<StyleProvider style={getTheme(variables)}>
+			<View style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
+				<RootStack screenProps= {this.allProps} />
+			</View>
+			</StyleProvider>
+		)
 	}
 }
 
