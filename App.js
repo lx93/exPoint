@@ -12,8 +12,6 @@ import SignupPage from './app/pages/SignupPage';
 import QRScanPage from './app/pages/QRScanPage';
 import RedeemPage from './app/pages/RedeemPage';
 import {StackNavigator} from 'react-navigation';
-import {getUserInfo,getToken} from './app/utils/Login';
-
 
 
 const RootStack = StackNavigator (
@@ -29,11 +27,14 @@ const RootStack = StackNavigator (
 );
 
 
+var test = 'https://point-backend-test.herokuapp.com/';
+var production = 'https://api.pointup.io/';
+
 
 export default class App extends Component{
 	constructor(props) {
 		super(props);
-		this.state = {token: undefined, userInfo:{phone:'not available'}}
+		this.state = {token: undefined, userInfo:{phone:'not available'}, uri: test}
 	}
 
 	// fix for android. load Robot_medium fonts to avoid font loading error
@@ -45,30 +46,19 @@ export default class App extends Component{
 	    this.setState({ isReady: true });
 	  }
 
-	updateState = async(u,p) => {
-		try {
-			let token = await getToken(u,p);
-			await this.setState({token:token});
-			let userInfo = await getUserInfo(token);
-			await this.setState({userInfo});
+	updateState = async(token,userInfo) => {
+		this.setState({token:token});
+		this.setState({userInfo});
 
-			// save the authToken we fetched to AsyncStorage
-			if (this.state.token != undefined){
-				try {
-					await AsyncStorage.setItem('authToken', this.state.token);
-					console.log('authToken is now stored to AsyncStorage');
-				} catch (error) {console.log('error saving authToken')}	
+		// saves the fetched token to AsyncStorage for future automatic login
+		if (this.state.token != undefined){
+			try {
+				await AsyncStorage.setItem('authToken', this.state.token);
+				console.log('authToken is now stored to AsyncStorage');
+			} catch (error) {
+				console.log('error saving authToken');
 			}
 		}
-		catch (error) {console.log(error);}
-	}
-
-	updateStateThruToken = async(token) => {
-		try {
-			let userInfo = await getUserInfo(token);
-			await this.setState({token:token})
-			await this.setState({userInfo});
-		}	catch (error) {console.log(error);}	
 	}
 
 
@@ -81,9 +71,9 @@ export default class App extends Component{
 
 		return (
 			<StyleProvider style={getTheme(variables)}>
-			<View style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
-				<RootStack screenProps= {this.allProps} />
-			</View>
+				<View style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
+					<RootStack screenProps= {this.allProps} />
+				</View>
 			</StyleProvider>
 		)
 	}

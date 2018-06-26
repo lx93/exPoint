@@ -21,7 +21,7 @@ export default class WalletTab extends Component {
   }
 
   setBalanceState = async(token) => {
-    var ownedBalanceIDs = await getOwnedBalanceIDs(token);
+    var ownedBalanceIDs = await getOwnedBalanceIDs(this.props.screenProps.state.uri,token);
     this.setState ({ownedBalanceIDs:ownedBalanceIDs});
   }
 

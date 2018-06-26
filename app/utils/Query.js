@@ -1,4 +1,4 @@
-export const fetchTransactions = async(authToken) => {
+export const fetchTransactions = async(uri,authToken) => {
   var options = {
     "method": "GET",
     "headers": {
@@ -8,7 +8,7 @@ export const fetchTransactions = async(authToken) => {
   }
 
   try {
-    let response = await fetch('https://api.pointup.io/merchants/transactions/',options);
+    let response = await fetch(uri+'merchants/transactions/',options);
     let responseJson = await response.json();
     // console.log('fetchTransactions() gets this response from server' + responseJson);
 

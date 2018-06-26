@@ -1,4 +1,4 @@
-export const getOwnedBalanceIDs = async(authToken) => {
+export const getOwnedBalanceIDs = async(uri,authToken) => {
     var options = { 
       "headers": {
          'Authorization': 'Bearer ' + authToken,
@@ -6,7 +6,7 @@ export const getOwnedBalanceIDs = async(authToken) => {
        },
     };
     try {
-      let response = await fetch('https://api.pointup.io/users/balances/',options);
+      let response = await fetch(uri+'users/balances/',options);
       console.log('getOwnedBalanceIDs() has got a response from /users/balances');
       let responseJson = await response.json();
       console.log('getOwnedBalanceIDs() got this back from server: ');
@@ -20,7 +20,7 @@ export const getOwnedBalanceIDs = async(authToken) => {
 }
 
 
-export const updateBalance = async(authToken,amount,balanceId) => {
+export const updateBalance = async(uri,authToken,amount,balanceId) => {
     var body = JSON.stringify({ "balanceId": balanceId, "value": parseFloat(amount).toFixed(2).toString()});
     var options = { 
       "method": 'PUT',
@@ -32,7 +32,7 @@ export const updateBalance = async(authToken,amount,balanceId) => {
     };
 
     try {
-      let response = await fetch('https://api.pointup.io/merchants/balances/',options);
+      let response = await fetch(uri+'merchants/balances/',options);
       let responseJson = await response.json();
       console.log("updateBalance() sent the following to server: " + body)
       console.log("updateBalance() gets the following message: " + responseJson.message)
@@ -44,7 +44,7 @@ export const updateBalance = async(authToken,amount,balanceId) => {
     }
 }
 
-export const createBalance = async(authToken,merchantId) => {
+export const createBalance = async(uri,authToken,merchantId) => {
     var body = JSON.stringify({"merchantId": merchantId});
     var options = { 
       "method": 'POST', 
@@ -56,7 +56,7 @@ export const createBalance = async(authToken,merchantId) => {
     };
 
     try {
-      let response = await fetch('https://api.pointup.io/users/balances/',options);
+      let response = await fetch(uri+'users/balances/',options);
       let responseJson = await response.json();
       console.log("createBalance() sent the following to server: " + body)
       console.log("createBalance() gets the following message: " + responseJson.message)

@@ -31,7 +31,7 @@ export default class HomePage extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>{this.props.screenProps.state.userInfo.phone}</Title>
+            <Title>{this.props.screenProps.state.userInfo.name}</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.logout()}>

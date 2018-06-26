@@ -30,7 +30,7 @@ export default class ButtonSubmit extends Component {
     if (this.state.isLoading) return;
     this.setState({isLoading: true});
 
-    this.props.getToken();
+    this.props.login();
 
 
    Animated.timing(this.buttonAnimated, {

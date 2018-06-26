@@ -1,5 +1,5 @@
 // update the state of user using authToken
-export const getUserInfo = async(authToken) => {
+export const getUserInfo = async(uri,authToken) => {
     var options = {
       "method": "GET",
       "headers": {
@@ -8,7 +8,7 @@ export const getUserInfo = async(authToken) => {
     	}
 	}
 	try {
-		let response = await fetch('https://api.pointup.io/users/',options);
+		let response = await fetch(uri+'users/',options);
 
 		if (response.status === 401){
 			alert('Wrong login credentials. Please try again.')
@@ -27,7 +27,7 @@ export const getUserInfo = async(authToken) => {
 }
 
 // send over the username and password to server to retrieve an authToken
-export const getToken = async(u,p) => {
+export const getToken = async(uri,u,p) => {
 	console.log('username is: '+u+' password is: '+p)
     var options = {
     	"method": "POST",
@@ -41,7 +41,7 @@ export const getToken = async(u,p) => {
     };
 
 	try {
-		let response = await fetch('https://api.pointup.io/users/login',options);
+		let response = await fetch(uri+'users/login',options);
 		let responseJson = await response.json();
 		return responseJson.token;
 	} catch (error) {
@@ -52,7 +52,7 @@ export const getToken = async(u,p) => {
 }
 
 
-export const signup = async(u,p) => {
+export const signup = async(uri,u,p) => {
 	console.log('username is: '+u+' password is: '+p)
     var options = {
     	"method": "POST",
@@ -66,7 +66,7 @@ export const signup = async(u,p) => {
     };
 
 	try {
-		let response = await fetch('https://api.pointup.io/users/signup',options);
+		let response = await fetch(uri+'users/signup',options);
 
 		if (response.status === 409){
 			console.log('409 Conflict. User may already exist.');
@@ -100,6 +100,7 @@ export const fbLogin = async() => {
 	);
 	if (type === "success") {
 	  console.log(token);
+	  return token;
 	} else {
 	  console.log('your papa fucked your ass and fb done fucked up')
 	}

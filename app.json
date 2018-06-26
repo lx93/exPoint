@@ -1,5 +1,14 @@
 {
-  "expo": {
-    "sdkVersion": "26.0.0"
-  }
-}
+   "expo": {
+    "name": "Point Consumer App",
+    "icon": "./app/resources/logo.png",
+    "version": "1.0.0",
+    "sdkVersion": "26.0.0",
+    "ios": {
+      "bundleIdentifier": "com.point.consumerapp"
+    },
+    "android": {
+      "package": "com.point.consumerapp"
+    }
+   }
+ }

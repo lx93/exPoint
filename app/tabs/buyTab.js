@@ -19,7 +19,7 @@ export default class BuyTab extends Component {
   }
 
   setAllMerchantsState = async(token) => {
-    var allMerchants = await getAllMerchants(token);
+    var allMerchants = await getAllMerchants(this.props.screenProps.state.uri,token);
     this.setState({allMerchants:allMerchants});
   }
 
