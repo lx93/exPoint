@@ -49,14 +49,8 @@ export default class WalletTab extends Component {
             containerStyle={{ }}
             style={{ backgroundColor: '#5067FF' }}
             position="bottomRight"
-            onPress={() => this.setState({ active: !this.state.active })}>
+            onPress={() => this.props.navigation.navigate('AddPage') }>
             <Icon name="add" />
-            <Button style={{ backgroundColor: '#34A34F' }}>
-              <MaterialCommunityIcons name="qrcode-scan" size={20} onPress={()=>this.props.navigation.navigate('QRScanPage')}/>
-            </Button>
-            <Button style={{ backgroundColor: '#DD5144' }}>
-              <FontAwesome name="search" size={20} onPress={()=>this.props.navigation.navigate('AddPage')}/>
-            </Button>
           </Fab>
         </View>
       </Container>

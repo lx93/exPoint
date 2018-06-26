@@ -90,8 +90,8 @@ export const signup = async(uri,u,p) => {
 
 
 
-// manages the facebook login, gets back a facebook token
-export const fbLogin = async() => {
+// get a facebook token
+export const getFbToken = async() => {
 	const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
 	  "153479025515649",
 	  {
@@ -99,9 +99,82 @@ export const fbLogin = async() => {
 	  }
 	);
 	if (type === "success") {
+      console.log('Received facebook token, here it is: ')
 	  console.log(token);
 	  return token;
 	} else {
 	  console.log('your papa fucked your ass and fb done fucked up')
 	}
 }
+
+
+
+// login with fbtoken
+export const fbAuth = async(uri,fbtoken,phone,verifyCode) => {
+	var options = {
+		"method": "POST",
+		"headers": {
+			"content-type": "application/json"
+		},
+		"body": JSON.stringify({
+			"accessToken": fbtoken,
+			"phone": phone,
+			"code":verifyCode
+		}),
+	};
+
+	try {
+		let response = await fetch(uri+'users/fbauth',options);
+		let responseJson = await response.json();
+		if (response.status === 201){
+			console.log('users/fbauth is returning the following: '+JSON.stringify(responseJson));
+			return responseJson.token;			
+		}
+		if (response.status === 202){
+			console.log('users/fbauth is returning the following: '+JSON.stringify(responseJson));
+			return undefined;
+		}
+		if (response.status === 401){
+			console.log('users/fbauth is returning the following: '+JSON.stringify(responseJson));
+			alert ('Wrong verification code. Try again.')
+			return undefined;	
+		}
+	} catch (error) {
+	  console.error(error);
+	  alert('cannot connect to server');
+	  return;
+	}
+}
+
+
+// SMS verify call
+export const sendVerifySMS = async(uri,phone) => {
+	var options = {
+		"method": "POST",
+		"headers": {
+			"content-type": "application/json"
+		},
+		"body": JSON.stringify({
+			"phone": phone,
+		}),
+	};
+
+	try {
+		let response = await fetch(uri+'users/verify',options);
+		let responseJson = await response.json();
+		if (response.status === 201){
+			console.log('users/verify is returning the following: '+JSON.stringify(responseJson));
+			return true;			
+		}
+		else {
+			console.log('users/verify is returning the following: '+JSON.stringify(responseJson));
+			alert('sendVerifySMS failed')
+			return false;
+		}
+	} catch (error) {
+	  console.error(error);
+	  alert('cannot connect to server');
+	  return;
+	}
+}
+

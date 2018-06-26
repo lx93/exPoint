@@ -7,10 +7,8 @@ import Logo from '../components/LoginPage/Logo';
 import Form from '../components/LoginPage/Form';
 import ButtonSubmit from '../components/LoginPage/ButtonSubmit';
 import SignupSection from '../components/LoginPage/SignupSection';
-import {fbLogin} from '../utils/Login';
+import {getFbToken,fbAuth} from '../utils/Login';
 import {getUserInfo,getToken} from '../utils/Login';
-
-
 
 
 
@@ -26,7 +24,6 @@ export default class LoginPage extends Component {
   }
 
   async componentDidMount() {
-
     // we check to see if we have authToken stored in AsyncStorage from previous session
     try {
       const token = await AsyncStorage.getItem('authToken');
@@ -49,7 +46,7 @@ export default class LoginPage extends Component {
     try {
       let token = await getToken(this.props.screenProps.state.uri,username,password);
       let userInfo = await this.getUserInfo(token);
-      this.props.screenProps.updateState(token,userInfo);
+      this.props.screenProps.updateState(token,userInfo,undefined);
     }
     catch (error) {
       console.log(error);
@@ -59,9 +56,17 @@ export default class LoginPage extends Component {
 // this function sends over fbtoken to get an authtoken
   fbLogin = async() => {
     try {
-      fbLogin();
-      let token = await getToken(this.props.screenProps.state.uri,username,password);
-      this.props.screenProps.updateState(token);
+      let fbtoken = await getFbToken();
+      let token = await fbAuth(this.props.screenProps.state.uri,fbtoken);
+      if (token == undefined) {
+        // alert('Please enter your phone number to finish login with Facebook.')
+        this.props.screenProps.updateState(undefined,undefined,fbtoken);
+        this.props.navigation.navigate('PhonePage');
+      }
+      else{
+        let userInfo = await this.getUserInfo(token);
+        this.props.screenProps.updateState(token,userInfo);
+      }
     }
     catch (error) {
       console.log(error);

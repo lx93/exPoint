@@ -11,6 +11,7 @@ import LoginPage from './app/pages/LoginPage';
 import SignupPage from './app/pages/SignupPage';
 import QRScanPage from './app/pages/QRScanPage';
 import RedeemPage from './app/pages/RedeemPage';
+import PhonePage from './app/pages/PhonePage';
 import {StackNavigator} from 'react-navigation';
 
 
@@ -21,7 +22,9 @@ const RootStack = StackNavigator (
 		HomePage:{screen:HomePage},
 		AddPage:{screen:AddPage},
 		QRScanPage:{screen:QRScanPage},
-		RedeemPage:{screen:RedeemPage}
+		RedeemPage:{screen:RedeemPage},
+		PhonePage:{screen:PhonePage}
+
 	},
 	{ headerMode: 'none' },
 );
@@ -34,7 +37,7 @@ var production = 'https://api.pointup.io/';
 export default class App extends Component{
 	constructor(props) {
 		super(props);
-		this.state = {token: undefined, userInfo:{phone:'not available'}, uri: test}
+		this.state = {token: undefined, userInfo:undefined, uri: test}
 	}
 
 	// fix for android. load Robot_medium fonts to avoid font loading error
@@ -46,9 +49,11 @@ export default class App extends Component{
 	    this.setState({ isReady: true });
 	  }
 
-	updateState = async(token,userInfo) => {
+	updateState = async(token,userInfo,fbtoken) => {
 		this.setState({token:token});
 		this.setState({userInfo});
+		this.setState({fbtoken});
+
 
 		// saves the fetched token to AsyncStorage for future automatic login
 		if (this.state.token != undefined){

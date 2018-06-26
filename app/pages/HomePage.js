@@ -18,7 +18,7 @@ export default class HomePage extends Component {
       console.log('Logged out! authToken is removed from AsyncStorage.');
     } catch (error) {console.log('error deleting authToken')}
 
-    this.props.navigation.navigate('LoginPage')
+    await this.props.navigation.navigate('LoginPage');
   }
 
   render() {

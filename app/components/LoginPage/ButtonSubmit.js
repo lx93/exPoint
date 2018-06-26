@@ -21,8 +21,36 @@ export default class ButtonSubmit extends Component {
     this.growAnimated = new Animated.Value(0);
   }
 
-  _onPressFB = (props) => {
+  _onPressFB = (props) => {    
+    if (this.state.isLoading) return;
+    this.setState({isLoading: true});
+
     this.props.fbLogin();
+
+
+    Animated.timing(this.buttonAnimated, {
+      toValue: 1,
+      duration: 200,
+      easing: Easing.linear,
+    }).start();
+
+
+    setTimeout(() => {
+      this._onGrow();
+    }, 2000);
+
+
+    setTimeout(() => {
+      if (this.props.screenProps.state.token) {this.props.navigation.navigate('HomePage');}
+
+      this.setState({isLoading: false});
+      this.buttonAnimated.setValue(0);
+      this.growAnimated.setValue(0);
+    }, 2300);
+
+
+    setTimeout(() => {
+    }, 2000);
   }
 
 
@@ -33,7 +61,7 @@ export default class ButtonSubmit extends Component {
     this.props.login();
 
 
-   Animated.timing(this.buttonAnimated, {
+    Animated.timing(this.buttonAnimated, {
       toValue: 1,
       duration: 200,
       easing: Easing.linear,
