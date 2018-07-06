@@ -44,7 +44,7 @@ export default class LoginPage extends Component {
 // this function sends over username and password to get an authtoken
   login = async() => {
     try {
-      let token = await getToken(this.props.screenProps.state.uri,username,password);
+      let token = await getToken(this.props.screenProps.state.uri,1+username,password);
       let userInfo = await this.getUserInfo(token);
       this.props.screenProps.updateState(token,userInfo,undefined);
     }

@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import {Container,Header,Title,Button,Icon,Content,CardItem,Card,Right,Left,Body,Text} from "native-base";
-import WalletTab from "../tabs/WalletTab";
-import BuyTab from "../tabs/BuyTab";
-import {AsyncStorage} from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 
@@ -44,4 +41,3 @@ export default class RedeemPage extends Component {
 }
 
 
-console.disableYelloBox = true;

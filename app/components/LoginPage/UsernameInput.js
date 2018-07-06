@@ -14,6 +14,8 @@ export default class UsernameInput extends Component {
         <TextInput
           onChangeText={(text) => new LoginPage().updateUsername(text)}
           style={styles.input}
+          maxLength={10}
+          keyboardType='numeric'
           placeholder={this.props.placeholder}
           secureTextEntry={this.props.secureTextEntry}
           autoCorrect={this.props.autoCorrect}

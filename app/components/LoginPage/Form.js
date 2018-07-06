@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  View,
-  ActivityIndicator,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {StyleSheet,KeyboardAvoidingView,View,ActivityIndicator,TouchableOpacity,Image} from 'react-native';
 
 import UsernameInput from './UsernameInput';
 import PasswordInput from './PasswordInput';
@@ -40,7 +33,7 @@ export default class Form extends Component {
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <UsernameInput
           source={usernameImg}
-          placeholder="username"
+          placeholder="phone number"
           autoCapitalize={'none'}
           returnKeyType={'done'}
           autoCorrect={false}

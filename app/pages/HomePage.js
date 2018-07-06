@@ -27,7 +27,7 @@ export default class HomePage extends Component {
         <Header span>
           <Left>
             <Button transparent>
-              <Icon name="ios-arrow-back" onPress={()=>this.props.navigation.goBack()}/>
+              <Icon name="ios-arrow-back" />
             </Button>
           </Left>
           <Body>

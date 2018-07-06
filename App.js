@@ -1,5 +1,3 @@
-'use strict'
-
 import React, { Component } from 'react';
 import {AsyncStorage,View,StatusBar} from 'react-native';
 import { Container, Content, Text, StyleProvider } from 'native-base';
@@ -12,19 +10,22 @@ import SignupPage from './app/pages/SignupPage';
 import QRScanPage from './app/pages/QRScanPage';
 import RedeemPage from './app/pages/RedeemPage';
 import PhonePage from './app/pages/PhonePage';
+import BuyPage from './app/pages/BuyPage';
 import {StackNavigator} from 'react-navigation';
 
 
 const RootStack = StackNavigator (
 	{
+		// BuyPage:{screen:BuyPage},
+
 		LoginPage:{screen:LoginPage},
 		SignupPage:{screen:SignupPage},
 		HomePage:{screen:HomePage},
 		AddPage:{screen:AddPage},
 		QRScanPage:{screen:QRScanPage},
 		RedeemPage:{screen:RedeemPage},
-		PhonePage:{screen:PhonePage}
-
+		PhonePage:{screen:PhonePage},
+		BuyPage:{screen:BuyPage},
 	},
 	{ headerMode: 'none' },
 );
@@ -77,7 +78,7 @@ export default class App extends Component{
 		return (
 			<StyleProvider style={getTheme(variables)}>
 				<View style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
-					<RootStack screenProps= {this.allProps} />
+					<RootStack screenProps= {this.allProps} updateState={this.updateState}/>
 				</View>
 			</StyleProvider>
 		)

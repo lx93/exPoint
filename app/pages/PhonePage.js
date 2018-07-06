@@ -86,13 +86,13 @@ export default class PhonePage extends Component {
     if (!this.state.showVerify) {
       return (
       <Container>
-        <Header><Title>Please enter your phone number to finish signup</Title></Header>
+        <Header span><Body><Title>Please enter your phone number to finish signup</Title></Body></Header>
 
         <View style={{flex: 1, justifyContent: 'space-evenly'}}>
           <Text style={{fontSize:30,textAlign:"center"}}>☎(+1) {this.formatPhoneNumber(this.state.phoneNumber)}</Text>
         </View>
         
-        <NumPad update={this.updatePhoneNumber} del={this.deletePhoneDigit} />
+        <NumPad update={this.updatePhoneNumber} del={this.deletePhoneDigit} decimal={false} />
 
         <Footer>
             <Button success active={true} onPress={() => {this.sendVerifySMS()}}>
@@ -103,21 +103,20 @@ export default class PhonePage extends Component {
               </Button>
         </Footer>
       </Container>
-
-    );
+      );
     }
 
 
     // renders the verification entry page
     return (
       <Container>
-        <Header><Title>Enter the verification code you received</Title></Header>
+        <Header span><Body><Title>Enter the verification code you received</Title></Body></Header>
 
         <View style={{flex: 1, justifyContent: 'space-evenly'}}>
           <Text style={{fontSize:30,textAlign:"center"}}>{this.state.amount}</Text>
         </View>
         
-        <NumPad update={this.updateAmount} del={this.deleteAmountDigit} />
+        <NumPad update={this.updateAmount} del={this.deleteAmountDigit} decimal={false} />
 
         <Footer>
             <Button success active={true} onPress={() => this.fbAuth()}>

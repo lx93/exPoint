@@ -7,6 +7,7 @@ import App from '../../App'
 import {getAllMerchants} from '../utils/Merchants';
 
 
+
 export default class BuyTab extends Component {
 
   constructor (props){
@@ -23,9 +24,13 @@ export default class BuyTab extends Component {
     this.setState({allMerchants:allMerchants});
   }
 
+  listItemOnPress (merchant) {
+    this.props.navigation.navigate('BuyPage',{merchant:merchant})
+  }
+
   renderItem = ({item}) => {
     return (
-      <ListItem>
+      <ListItem onPress={()=>this.listItemOnPress(item)} >
         <Left>
           <Thumbnail source={{uri:"https://s3.amazonaws.com/point-server/"+item.image}} />
           <Body>

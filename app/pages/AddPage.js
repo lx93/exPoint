@@ -25,7 +25,7 @@ export default class AddPage extends Component {
 
 // this function handles when a store listitem is clicked on
 	_onPressed = async (merchant) => {
-    	await createBalance(this.props.screenProps.state.uri,this.props.screenProps.state.token,merchant.merchantId);
+    	await createBalance(this.props.screenProps.state.uri,this.props.screenProps.state.token,null,0,merchant.merchantId);
     	this.props.navigation.navigate('HomePage');
 		console.log(merchant);
 	}

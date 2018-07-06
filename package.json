@@ -19,12 +19,15 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "display-cents": "^1.0.0",
+    "dollars-to-cents": "^1.0.3",
     "expo": "^26.0.0",
     "native-base": "^2.4.1",
     "react": "16.3.0-alpha.1",
     "react-native": "0.54.0",
     "react-native-qrcode-svg": "^5.0.6",
     "react-native-svg": "^6.3.1",
+    "react-native-webview-messaging": "^2.0.0-alpha.4",
     "react-navigation": "^1.5.11"
   }
 }

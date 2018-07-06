@@ -1,0 +1,298 @@
+<script src="https://js.stripe.com/v3/"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+<script>
+  var stripe = Stripe('pk_test_t5G8Bzv1VkotnaWLl4E5HYro');
+  var elements = stripe.elements();
+</script>
+
+<script>
+  const onSubmit = () => {
+  }
+</script>
+
+<div class="example example3">
+  <form action="javascript:onSubmit()" method="post" id="payment-form">
+    <div style="margin:auto;width:80%;">
+
+      <label for="card-number">
+        Credit or debit card
+      </label>
+      <div id="card-number" style="margin-top:50px">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+      <div id="card-expiry" style="margin-top:50px">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+      <div id="card-cvc" style="margin-top:50px">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+
+      <!-- Used to display Element errors. -->
+      <div id="card-errors" style="margin-top:50px" role="alert"></div>
+
+      <button style="margin-top:50px">Submit Payment</button>
+
+    </div>
+
+  </form>
+</div>
+
+<script>
+    // Custom styling can be passed to options when creating an Element.
+  var style = {
+    base: {
+      iconColor: '#c4f0ff',
+      color: '#00000',
+      fontWeight: 500,
+      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+      fontSize: '80px',
+      fontSmoothing: 'antialiased',
+
+      ':-webkit-autofill': {
+        color: '#fce883',
+      },
+      '::placeholder': {
+        color: '#87BBFD',
+      },
+    },
+    invalid: {
+      iconColor: '#FFC7EE',
+      color: '#FFC7EE',
+    }
+  };
+
+  // Create an instance of the card Element.
+  var cardNumber = elements.create('cardNumber', {style: style});
+  var cardExpiry = elements.create('cardExpiry', {style: style});
+  var cardCvc = elements.create('cardCvc', {style: style});
+
+  // Add an instance of the card Element into the `card-element` <div>.
+  cardNumber.mount('#card-number');
+  cardExpiry.mount('#card-expiry');
+  cardCvc.mount('#card-cvc');
+  var card = [cardNumber,cardExpiry,cardCvc];
+  registerElements([cardNumber, cardExpiry, cardCvc], 'example3');
+
+</script>
+
+
+<script>
+  // Elements validates user input as it is typed. To help your customers catch mistakes, you should listen to change events on the card Element and display any errors:
+  for (var i=0;i<card.length; i++){
+    card[i].addEventListener('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+  }
+</script>
+
+<script>
+  // Step 3: Create a token to securely transmit card information
+
+  // Create a token or display an error when the form is submitted.
+  const form = document.getElementById('payment-form');
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const {token, error} = await stripe.createToken(cardNumber,cardExpiry,cardCvc);
+
+    if (error) {
+      // Inform the customer that there was an error.
+      alert(error.message);
+      const errorElement = document.getElementById('card-errors');
+      errorElement.textContent = error.message;
+    } else {
+      // alert(JSON.stringify(token));
+      // Send the token to RN
+      window.postMessage(JSON.stringify(token.id));
+      // Send the token to your server.      
+      stripeTokenHandler(token);
+    }
+  });
+</script>
+
+
+<script>
+  // Step 4: Submit the token and the rest of your form to your server
+  const stripeTokenHandler = (token) => {
+    // Insert the token ID into the form so it gets submitted to the server
+    const form = document.getElementById('payment-form');
+    const hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    // Submit the form
+    form.submit();
+  }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+  .example.example3 {
+    background-color: #525f7f;
+    height: 100vh;
+  }
+
+  .example.example3 * {
+    font-family: Quicksand, Open Sans, Segoe UI, sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  .example.example3 .fieldset {
+    margin: 0 15px 30px;
+    padding: 0;
+    border-style: none;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+
+  .example.example3 .field {
+    padding: 10px 20px 11px;
+    background-color: #7488aa;
+    border-radius: 20px;
+    width: 100%;
+  }
+
+  .example.example3 .field.half-width {
+    width: calc(50% - (5px / 2));
+  }
+
+  .example.example3 .field.third-width {
+    width: calc(33% - (5px / 3));
+  }
+
+  .example.example3 .field + .field {
+    margin-top: 6px;
+  }
+
+  .example.example3 .field.focus,
+  .example.example3 .field:focus {
+    color: #424770;
+    background-color: #f6f9fc;
+  }
+
+  .example.example3 .field.invalid {
+    background-color: #fa755a;
+  }
+
+  .example.example3 .field.invalid.focus {
+    background-color: #f6f9fc;
+  }
+
+  .example.example3 .field.focus::-webkit-input-placeholder,
+  .example.example3 .field:focus::-webkit-input-placeholder {
+    color: #cfd7df;
+  }
+
+  .example.example3 .field.focus::-moz-placeholder,
+  .example.example3 .field:focus::-moz-placeholder {
+    color: #cfd7df;
+  }
+
+  .example.example3 .field.focus:-ms-input-placeholder,
+  .example.example3 .field:focus:-ms-input-placeholder {
+    color: #cfd7df;
+  }
+
+  .example.example3 input, .example.example3 button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border-style: none;
+  }
+
+  .example.example3 input {
+    color: #fff;
+  }
+
+  .example.example3 input::-webkit-input-placeholder {
+    color: #9bacc8;
+  }
+
+  .example.example3 input::-moz-placeholder {
+    color: #9bacc8;
+  }
+
+  .example.example3 input:-ms-input-placeholder {
+    color: #9bacc8;
+  }
+
+  .example.example3 button {
+    display: block;
+    width: calc(70% - 30px);
+    height: 70px;
+    margin: 0 15px;
+    background-color: #fcd669;
+    border-radius: 20px;
+    color: #525f7f;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .example.example3 button:active {
+    background-color: #f5be58;
+  }
+
+  .example.example3 .error svg .base {
+    fill: #fa755a;
+  }
+
+  .example.example3 .error svg .glyph {
+    fill: #fff;
+  }
+
+  .example.example3 .error .message {
+    color: #fff;
+  }
+
+  .example.example3 .success .icon .border {
+    stroke: #fcd669;
+  }
+
+  .example.example3 .success .icon .checkmark {
+    stroke: #fff;
+  }
+
+  .example.example3 .success .title {
+    color: #fff;
+  }
+
+  .example.example3 .success .message {
+    color: #9cabc8;
+  }
+
+  .example.example3 .success .reset path {
+    fill: #fff;
+  }
+</style>
+

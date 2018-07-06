@@ -6,11 +6,14 @@ import bgSrc from '../resources/wallpaper.png';
 import Logo from '../components/SignupPage/Logo';
 import ButtonSubmit from '../components/SignupPage/ButtonSubmit';
 import Form from '../components/SignupPage/Form';
-import {signup} from '../utils/Login';
+import {signup,sendVerifySMS} from '../utils/Login';
 
 
-var username
+var phone
 var password
+var firstname
+var lastname
+var code
 
 export default class SignupPage extends Component {
   constructor(props) {
@@ -18,15 +21,21 @@ export default class SignupPage extends Component {
   }
 
   async componentDidMount() {
-
   }
 
-  updateUsername (text) {username = text;console.log(text)}
+  updatePhone (text) {phone = text;console.log(text)}
   updatePassword (text) {password = text;console.log(text)}
+  updateFirstName (text) {firstname = text;console.log(text)}
+  updateLastName (text) {lastname = text;console.log(text)}
+  updateCode (text){code = text;console.log(text)}
 
+  verify = async() => {
+    await sendVerifySMS(this.props.screenProps.state.uri,1+phone);
+    alert('Verification sent!')
+  }
 
-  signup() {
-    signup(username,password);
+  signup = async() => {
+    await signup(this.props.screenProps.state.uri,firstname+' '+lastname,phone,password,code);
   }
 
   render() {
@@ -34,9 +43,9 @@ export default class SignupPage extends Component {
       <ImageBackground style={styles.picture} source={bgSrc}>
         <Logo />
         <Text style={styles.text}>Signup</Text>
-        <Form />
+        <Form verify={this.verify} />
         <Content></Content>
-        <ButtonSubmit navigation={this.props.navigation} signup={this.signup} screenProps={this.props.screenProps}/>
+        <ButtonSubmit signup={this.signup}/>
       </ImageBackground>
 //lol
     );

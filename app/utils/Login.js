@@ -52,7 +52,7 @@ export const getToken = async(uri,u,p) => {
 }
 
 
-export const signup = async(uri,u,p) => {
+export const signup = async(uri,name,u,p,code) => {
 	console.log('username is: '+u+' password is: '+p)
     var options = {
     	"method": "POST",
@@ -60,8 +60,10 @@ export const signup = async(uri,u,p) => {
     		"content-type": "application/json"
     	},
     	"body": JSON.stringify({
+    		"name": name,
     		"phone": u,
     		"password": p,
+    		"code": code
     	}),
     };
 
@@ -110,7 +112,7 @@ export const getFbToken = async() => {
 
 
 // login with fbtoken
-export const fbAuth = async(uri,fbtoken,phone,verifyCode) => {
+export const fbAuth = async(uri,fbtoken,phone,code) => {
 	var options = {
 		"method": "POST",
 		"headers": {
@@ -119,7 +121,7 @@ export const fbAuth = async(uri,fbtoken,phone,verifyCode) => {
 		"body": JSON.stringify({
 			"accessToken": fbtoken,
 			"phone": phone,
-			"code":verifyCode
+			"code": code
 		}),
 	};
 
